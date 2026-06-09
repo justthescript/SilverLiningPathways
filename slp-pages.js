@@ -435,6 +435,37 @@
     '.band h2{color:#fff; font-size:clamp(1.8rem,3.6vw,2.6rem); max-width:20ch; margin:0 auto 14px;}',
     '.band p{color:#e8d6cf; max-width:52ch; margin:0 auto 26px;}',
     '.band .hero-cta{justify-content:center;}',
+    /* "Why" — darkness into light */
+    '.why-open{position:relative; padding:clamp(72px,12vw,150px) 0; color:var(--cream); overflow:hidden; text-align:center;}',
+    '.why-open .bg{position:absolute; inset:0;}',
+    '.why-open .bg img{width:100%; height:100%; object-fit:cover;}',
+    '.why-open .veil{position:absolute; inset:0; background:linear-gradient(180deg,rgba(46,15,19,.84),rgba(46,15,19,.66) 55%,rgba(46,15,19,.92));}',
+    '.why-open .inner{position:relative;}',
+    '.why-open .eyebrow{color:var(--rose); justify-content:center;}',
+    '.why-q{color:#fff; font-weight:400; font-size:clamp(1.5rem,3.7vw,2.6rem); line-height:1.28;',
+    '  max-width:760px; margin:0 auto; text-shadow:0 2px 34px rgba(0,0,0,.45);}',
+    '.why-body{position:relative; background:var(--panel);}',
+    '.why-body::before{content:""; position:absolute; top:-1px; left:50%; transform:translateX(-50%);',
+    '  width:min(700px,92%); height:170px; pointer-events:none;',
+    '  background:radial-gradient(ellipse at top, rgba(234,185,179,.55), transparent 72%);}',
+    '.why-col{position:relative; max-width:720px; margin:0 auto;}',
+    '.why-col p{font-size:clamp(1.05rem,1.7vw,1.22rem); color:var(--ink-2); line-height:1.78;}',
+    '.why-col p:first-of-type{font-size:clamp(1.12rem,1.95vw,1.32rem); color:var(--ink);}',
+    '.why-sign{font-family:var(--script); color:var(--wine); font-size:clamp(2.1rem,4.5vw,3rem);',
+    '  line-height:1; margin:6px 0 28px;}',
+    /* "Why" — contained version inside Meet Shanda */
+    '.why-inline{position:relative; overflow:hidden; text-align:center;',
+    '  margin-top:clamp(40px,6vw,76px); padding:clamp(34px,5vw,64px) clamp(24px,5vw,60px);',
+    '  background:var(--panel); border:1px solid var(--line-2); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm);}',
+    '.why-inline::before{content:""; position:absolute; top:0; left:50%; transform:translateX(-50%);',
+    '  width:min(560px,90%); height:150px; pointer-events:none;',
+    '  background:radial-gradient(ellipse at top, rgba(234,185,179,.55), transparent 72%);}',
+    '.why-inline .eyebrow{justify-content:center; position:relative;}',
+    '.why-quote{position:relative; font-family:var(--display); font-weight:400;',
+    '  font-size:clamp(1.4rem,3vw,2.05rem); line-height:1.3; color:var(--ink);',
+    '  max-width:720px; margin:0 auto 26px;}',
+    '.why-inline-body{max-width:660px; margin:0 auto; text-align:left;}',
+    '.why-inline-body p{font-size:clamp(1rem,1.5vw,1.12rem); color:var(--ink-2); line-height:1.74;}',
     /* note callout */
     '.callout{background:var(--rose-soft); border-radius:var(--radius); padding:20px 24px;',
     '  border-left:4px solid var(--wine); color:var(--ink-2);}',
@@ -513,7 +544,7 @@
       hero({ compact: true, eyebrow: 'About', title: 'The story behind Silver Lining Pathways',
         lead: 'Born from grief, grounded in horses, offered in service to your healing.',
         alt: 'Horses grazing in misty morning light' }) +
-      '<section class="sec"><div class="wrap split">' +
+      '<section class="sec"><div class="wrap"><div class="split">' +
       '<div class="figure reveal"><img src="' + wimg(IMG.team, 760, 980) + '" alt="Shanda Hanft with a horse"><div class="glow"></div></div>' +
       '<div class="reveal"><span class="tag">Meet the team</span>' +
       '<h2 class="title">Shanda Hanft</h2>' +
@@ -521,7 +552,9 @@
       '<p>Shanda\u2019s passion for horses began at the age of three, when they first became her safe place and source of healing. As a child, she could often be found sitting in the pasture, sharing her problems, dreams, fears, and aspirations with them. Horses have remained a constant source of comfort, connection, and strength throughout every season of her life.</p>' +
       '<p>After the loss of her husband in 2024, Shanda leaned even more deeply into the healing bond she has always shared with horses. Through her own grief journey, she felt called to pursue equine-assisted coaching as a way to help others find hope, healing, and peace.</p>' +
       '<p>Today, Shanda is passionate about helping individuals navigating trauma, grief, depression, abuse, anxiety, and major life transitions. She believes horses have a unique ability to help people feel safe, understood, and emotionally connected — creating space for authentic healing and personal growth. She travels between Indiana, California, and Arizona to walk alongside her clients on their journey.</p>' +
-      '</div></div></section>' +
+      '</div></div>' +
+      whyInline() +
+      '</div></section>' +
       // mission
       '<section class="sec sec--panel"><div class="wrap center reveal">' +
       '<span class="eyebrow">Our Mission</span>' +
@@ -762,6 +795,37 @@
       '</div></div></section>';
   }
 
+  function whyOpen() {
+    return '<section class="why-open"><div class="bg"><img src="' + wimg(IMG.heroMist, 1600, 760) +
+      '" alt="Horses emerging from morning mist"></div><div class="veil"></div>' +
+      '<div class="wrap inner reveal"><span class="eyebrow">Why I Do This Work</span>' +
+      '<h2 class="why-q">Are you ready to break through the chains of darkness and gather up all of the scattered pieces of your life that have been swept under the rug by others around you?</h2>' +
+      '</div></section>';
+  }
+  function whyBody(withCta) {
+    return '<section class="sec why-body"><div class="wrap"><div class="why-col reveal">' +
+      '<p>I know what it\u2019s like to live in the black smoke and fog of the darkness. Strength isn\u2019t about surviving \u2014 true strength is about being willing to allow your foundation to crumble. To be able to sit in the mess, feeling fractured.</p>' +
+      '<p>We find ourselves asking, \u201cWhat\u2019s the reason? How do I find my way out of the pain?\u201d I\u2019m here to sit with you, to create a safe space. I can help you become empowered to find your own voice through the darkness.</p>' +
+      '<p>Together we will build a new foundation, so you can choose to be a thriving soul \u2014 one where you can once again be filled with curiosity, wonder, and hope. You\u2019ll be able to once again see the possibilities of stepping into your authenticity and the self-expression of who you truly are.</p>' +
+      '<div class="why-sign">\u2014 Shanda</div>' +
+      (withCta ? '<div class="hero-cta"><a class="btn btn--primary" href="/book-online">Book a Session</a>' +
+        '<a class="btn btn--ghost" href="/inquiry-services-page">Start a Conversation</a></div>' : '') +
+      '</div></div></section>';
+  }
+  function tplWhy() {
+    return whyOpen() + whyBody(true);
+  }
+  function whyInline() {
+    return '<div class="why-inline reveal">' +
+      '<span class="eyebrow">In Shanda\u2019s words</span>' +
+      '<blockquote class="why-quote">Are you ready to break through the chains of darkness and gather up all of the scattered pieces of your life that have been swept under the rug by others around you?</blockquote>' +
+      '<div class="why-inline-body">' +
+      '<p>I know what it\u2019s like to live in the black smoke and fog of the darkness. Strength isn\u2019t about surviving \u2014 true strength is about being willing to allow your foundation to crumble. To be able to sit in the mess, feeling fractured.</p>' +
+      '<p>We find ourselves asking, \u201cWhat\u2019s the reason? How do I find my way out of the pain?\u201d I\u2019m here to sit with you, to create a safe space. I can help you become empowered to find your own voice through the darkness.</p>' +
+      '<p>Together we will build a new foundation, so you can choose to be a thriving soul \u2014 one where you can once again be filled with curiosity, wonder, and hope. You\u2019ll be able to once again see the possibilities of stepping into your authenticity and the self-expression of who you truly are.</p>' +
+      '</div><div class="why-sign">\u2014 Shanda</div></div>';
+  }
+
   function tplPrivacy() {
     var d = new Date(); var upd = d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     return heroLegal('Privacy Policy', 'How we handle your information') +
@@ -836,7 +900,8 @@
   var TEMPLATES = {
     home: tplHome, about: tplAbout, services: tplServices, pricing: tplPricing,
     events: tplEvents, book: tplBook, groups: tplGroups, members: tplMembers,
-    inquiry: tplInquiry, loyalty: tplLoyalty, privacy: tplPrivacy, accessibility: tplAccessibility
+    inquiry: tplInquiry, loyalty: tplLoyalty, why: tplWhy,
+    privacy: tplPrivacy, accessibility: tplAccessibility
   };
 
   /* ---- SEO: inject JSON-LD structured data once ---- */
