@@ -416,11 +416,18 @@
     '.plan .badge{position:absolute; top:-12px; left:50%; transform:translateX(-50%);',
     '  background:var(--wine); color:var(--cream); font-size:.7rem; letter-spacing:.14em;',
     '  text-transform:uppercase; font-weight:700; padding:5px 14px; border-radius:999px;}',
-    '.plan h3{font-size:1.3rem;} .plan .price{font-family:var(--display); font-size:2.1rem; margin:6px 0 2px;}',
-    '.plan .per{color:var(--taupe); font-size:.86rem;}',
-    '.plan ul{list-style:none; padding:0; margin:18px 0 22px; display:grid; gap:10px; flex:1;}',
-    '.plan li{display:flex; gap:10px; font-size:.95rem; color:var(--ink-2);}',
-    '.plan li::before{content:"✦"; color:var(--rose); font-size:.85rem;}',
+    '.plan h3{font-size:1.3rem; text-align:center;}',
+    '.plan .price{font-family:var(--display); font-size:clamp(2.6rem,6vw,3.6rem); line-height:1; margin:10px 0 2px; text-align:center;}',
+    '.plan .price sup{font-size:.32em; vertical-align:.95em; color:var(--taupe); margin-right:.04em; font-family:var(--body); font-weight:700;}',
+    '.plan .price--soft{font-size:clamp(1.4rem,3vw,1.7rem); color:var(--wine);}',
+    '.plan .per{color:var(--taupe); font-size:.86rem; text-align:center;}',
+    '.plan-desc{font-size:.95rem; color:var(--ink-2); margin:16px 0 6px; text-align:center; flex:1;}',
+    '.valid{font-size:.82rem; color:var(--taupe); text-align:center; margin:0 0 18px;}',
+    '.plan .btn{justify-content:center;}',
+    '.plan.custom{background:var(--panel); border:1px dashed var(--wine);}',
+    '.includes{margin-top:22px; padding-top:18px; border-top:1px solid var(--line-2); text-align:center;}',
+    '.inc-label{display:block; font-family:var(--body); font-weight:700; font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--taupe); margin-bottom:10px;}',
+    '.inc{font-size:.98rem; color:var(--ink); margin-bottom:4px;}',
     '@media(max-width:900px){ .plans{grid-template-columns:1fr;} .split,.split.rev{grid-template-columns:1fr;}',
     '  .gallery{columns:2 160px;} }',
     /* CTA band */
@@ -574,32 +581,82 @@
       ctaBand('Ready to begin?', 'Book a session online, or send an inquiry and we\u2019ll find the right starting point together.');
   }
 
-  function tplPricing() {
-    return '' +
-      hero({ compact: true, eyebrow: 'Plans & Pricing', title: 'Find the option that fits',
-        lead: 'Single sessions, packages, and memberships — choose what supports your journey best.',
-        ctas: [{ label: 'View live plans & checkout', href: '/pricing-plans/plans-pricing' }] }) +
-      '<section class="sec"><div class="wrap">' +
-      '<div class="plans">' +
-      planCard({ name: 'Single Session', price: '', per: 'One-time', feat: false,
-        items: ['One equine-assisted coaching session', 'Tailored to your needs', 'Optional Reiki add-on', 'Perfect for a first visit'] }) +
-      planCard({ name: 'Session Package', price: '', per: 'Best value', feat: true, badge: 'Most chosen',
-        items: ['A series of coaching sessions', 'Consistent support over time', 'Reiki woven in throughout', 'Priced below single-session rates'] }) +
-      planCard({ name: 'Group Workshop', price: '', per: 'Per participant', feat: false,
-        items: ['Shared, community-based session', 'Connection & mutual support', 'Great for teams & retreats', 'Custom workshops available'] }) +
-      '</div>' +
-      '<div class="callout reveal" style="margin-top:34px;">Pricing and checkout are handled securely through our booking system. Tap <b>View live plans &amp; checkout</b> above to see current rates, purchase a plan, or redeem a package. Questions about which option is right for you? <a href="/inquiry-services-page">Send an inquiry</a> and we\u2019ll help.</div>' +
-      '</div></section>' +
-      ctaBand('Not sure where to start?', 'Tell us a little about what you\u2019re looking for and we\u2019ll recommend the right fit.');
+  /* Default plan data (matches the live Wix Plans page). Any field can be
+   * overridden per-plan via attributes on <slp-page data-page="pricing">:
+   *   data-p1-price="222"  data-p2-price="777"  data-p1-name="…"  etc.
+   *   fields: name | price | per | desc | valid | cta | link | includes | feat | custom
+   *   data-p1-includes accepts a comma- or pipe-separated list.
+   * Or override everything at once with a JSON array in  data-plans='[…]'.
+   */
+  function defaultPlans() {
+    return [
+      { name: 'Monthly Distance Pass', price: '222', per: 'Every month',
+        desc: 'Two remote sessions per month for a minimum of 6 months.',
+        valid: 'Valid for 6 months', includes: ['Remote Reiki Session'],
+        cta: 'Add to Cart', link: '/pricing-plans/plans-pricing', feat: false },
+      { name: 'Transformation Bundle', price: '777', per: '5-session package',
+        desc: 'Save on your journey with a 5-session package that includes equine-assisted coaching along with Reiki healing. Ideal for those committed to deep personal growth.',
+        valid: 'Valid for 12 months', includes: ['Equine Assisted Coaching', 'Energy Work'],
+        cta: 'Add to Cart', link: '/pricing-plans/plans-pricing', feat: true },
+      { name: 'Custom', price: '', per: 'Tailored to you',
+        desc: 'Not sure which option fits, or need something different? Let\u2019s design a plan around your needs, goals, and budget.',
+        valid: '', includes: ['Built around you'],
+        cta: 'Start a conversation', link: '/inquiry-services-page', feat: false, custom: true }
+    ];
+  }
+  function getPlans(el) {
+    var plans = defaultPlans();
+    var get = el && el.getAttribute ? function (n) { return el.getAttribute(n); } : function () { return null; };
+    var raw = get('data-plans');
+    if (raw) {
+      try {
+        var j = JSON.parse(raw);
+        if (Array.isArray(j) && j.length) {
+          plans = j.map(function (o, i) {
+            var base = plans[i] || {}; for (var k in o) base[k] = o[k]; return base;
+          });
+        }
+      } catch (e) { /* keep defaults on bad JSON */ }
+    }
+    plans.forEach(function (p, i) {
+      var k = 'data-p' + (i + 1) + '-';
+      ['name', 'price', 'per', 'desc', 'valid', 'cta', 'link'].forEach(function (f) {
+        var v = get(k + f); if (v != null && v !== '') p[f] = v;
+      });
+      var inc = get(k + 'includes');
+      if (inc != null && inc !== '') p.includes = inc.split(/[|,]/).map(function (s) { return s.trim(); }).filter(Boolean);
+      var ft = get(k + 'feat'); if (ft != null) p.feat = (ft === 'true' || ft === '1');
+      var cu = get(k + 'custom'); if (cu != null) p.custom = (cu === 'true' || cu === '1');
+    });
+    return plans;
   }
   function planCard(p) {
-    return '<article class="card plan ' + (p.feat ? 'feat' : '') + ' reveal">' +
-      (p.badge ? '<span class="badge">' + p.badge + '</span>' : '') +
-      '<h3>' + p.name + '</h3>' +
-      (p.price ? '<div class="price">' + p.price + '</div>' : '<div class="price" style="font-size:1.4rem;color:var(--wine);">See current rate</div>') +
-      '<div class="per">' + p.per + '</div>' +
-      '<ul>' + p.items.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul>' +
-      '<a class="btn ' + (p.feat ? 'btn--primary' : 'btn--ghost') + '" href="/pricing-plans/plans-pricing">Choose this plan</a></article>';
+    var priceBlock = p.price
+      ? '<div class="price"><sup>$</sup>' + p.price + '</div><div class="per">' + (p.per || '') + '</div>'
+      : '<div class="price price--soft">' + (p.per || 'Let\u2019s talk') + '</div>';
+    var inc = (p.includes && p.includes.length)
+      ? '<div class="includes"><span class="inc-label">Includes</span>' +
+        p.includes.map(function (i) { return '<div class="inc">' + i + '</div>'; }).join('') + '</div>'
+      : '';
+    return '<article class="card plan ' + (p.feat ? 'feat ' : '') + (p.custom ? 'custom' : '') + ' reveal">' +
+      (p.feat ? '<span class="badge">Best value</span>' : '') +
+      '<h3>' + p.name + '</h3>' + priceBlock +
+      (p.desc ? '<p class="plan-desc">' + p.desc + '</p>' : '') +
+      (p.valid ? '<div class="valid">' + p.valid + '</div>' : '') +
+      '<a class="btn ' + ((p.feat || p.custom) ? 'btn--primary' : 'btn--ghost') + '" href="' + p.link + '">' + (p.cta || 'Choose this plan') + '</a>' +
+      inc + '</article>';
+  }
+  function tplPricing(el) {
+    var cards = getPlans(el).map(planCard).join('');
+    return '' +
+      hero({ compact: true, eyebrow: 'Plans & Pricing', title: 'Choose your pricing plan',
+        lead: 'Remote sessions, a transformation bundle, or something built just for you — find the option that supports your journey best.',
+        ctas: [{ label: 'View live plans & checkout', href: '/pricing-plans/plans-pricing' }] }) +
+      '<section class="sec"><div class="wrap">' +
+      '<div class="plans">' + cards + '</div>' +
+      '<div class="callout reveal" style="margin-top:34px;">Secure checkout for the Monthly Distance Pass and Transformation Bundle runs through our booking system — tap <b>Add to Cart</b> on a plan, or <b>View live plans &amp; checkout</b> above. Looking for something different? The <b>Custom</b> option starts a quick conversation so we can build a plan around you.</div>' +
+      '</div></section>' +
+      ctaBand('Not sure where to start?', 'Tell us a little about what you\u2019re looking for and we\u2019ll recommend the right fit.');
   }
 
   function tplEvents() {
@@ -823,7 +880,7 @@
       var page = (this.getAttribute('data-page') || 'home').toLowerCase();
       var tpl = TEMPLATES[page] || TEMPLATES.home;
       var sh = this.attachShadow({ mode: 'open' });
-      sh.innerHTML = '<style>' + THEME + '\n' + PAGE_CSS + '</style>' + tpl();
+      sh.innerHTML = '<style>' + THEME + '\n' + PAGE_CSS + '</style>' + tpl(this);
       wireReveal(sh);
       injectSEO(page);
 
@@ -852,6 +909,9 @@
         form.addEventListener('submit', function (e) {
           e.preventDefault();
           var fd = {}; new FormData(form).forEach(function (v, k) { fd[k] = v; });
+          fd.type = self.getAttribute('data-lead-type') || 'inquiry';
+          fd.source = 'website';
+          fd.page = location.pathname;
           if (!fd.first || !fd.email || !fd.message) {
             form.reportValidity && form.reportValidity(); return;
           }

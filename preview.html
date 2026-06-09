@@ -1,0 +1,17 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SLP preview</title>
+<style>body{margin:0;font-family:sans-serif} .pgwrap{border-bottom:8px solid #913f4a}
+.lbl{position:sticky;top:0;background:#2e0f13;color:#fefaf0;padding:6px 14px;font:700 13px sans-serif;z-index:5}</style>
+</head><body>
+<slp-header></slp-header>
+<div id="pages"></div>
+<slp-footer></slp-footer>
+<script src="./slp-pages.js"></script>
+<script>
+const pages=['home','about','services','pricing','events','book','groups','members','inquiry','loyalty','privacy','accessibility'];
+const host=document.getElementById('pages');
+pages.forEach(p=>{const d=document.createElement('div');d.className='pgwrap';
+d.innerHTML='<div class="lbl">data-page="'+p+'"</div><slp-page data-page="'+p+'"></slp-page>';host.appendChild(d);});
+</script>
+</body></html>
