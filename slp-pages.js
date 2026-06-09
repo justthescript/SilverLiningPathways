@@ -90,7 +90,19 @@
       'e064dc_2086a4d538444deda477f424f210fc8a~mv2.jpg',
       'e064dc_a5ded509265b463a8e5c4db4abdd7804~mv2.jpg',
       'e064dc_d4560faa52224621a3e5aacf77a5ec91~mv2.jpg',
-      'e064dc_b328cea812f44e05947b73cd7fd682c5~mv2.jpg'
+      'e064dc_b328cea812f44e05947b73cd7fd682c5~mv2.jpg',
+      'e064dc_1f57ba2258334b9aa5bb9f5a0fdb7b59~mv2.jpg',
+      'e064dc_5867b1184daa48a3b1130d3cc2aa408e~mv2.jpg',
+      'e064dc_655d56f5129446148fe1f8b6bedb98ba~mv2.jpg',
+      'e064dc_3699e27376a44d219a94a0a6db906ee2~mv2.jpg',
+      'e064dc_781a3d69981a4a5dad08a9de4175ab1b~mv2.jpg',
+      'e064dc_f5803c6c4fdd409c80a1daceffac7b2b~mv2.jpg',
+      'e064dc_94702b0f5ed847b4acca3c136fe734af~mv2.jpg',
+      'e064dc_32a0ce0fbe1c45e594cfd3dd909e2e32~mv2.jpg',
+      'e064dc_f7a7048ffeb44325add33819969c9a43~mv2.jpg',
+      'e064dc_3f44bd402c224c9581ef5a9ffd4658dc~mv2.jpg',
+      'e064dc_3edc8fe4e86d47c09c7f37d5136a9e3b~mv2.jpg',
+      'e064dc_d274807fded048d5960ac9f16a6f856d~mv2.jpg'
     ]
   };
 
@@ -398,11 +410,24 @@
     '.checks li::before{content:""; flex:0 0 auto; width:20px; height:20px; margin-top:2px; border-radius:50%;',
     '  background:var(--rose-soft) url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23913f4a\' stroke-width=\'3\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpolyline points=\'20 6 9 17 4 12\'/%3E%3C/svg%3E") center/12px no-repeat;}',
     /* gallery */
-    '.gallery{columns:4 220px; column-gap:14px;}',
-    '.gallery button{display:block; width:100%; margin:0 0 14px; padding:0; border:0; cursor:zoom-in;',
-    '  border-radius:14px; overflow:hidden; background:none; box-shadow:var(--shadow-sm); break-inside:avoid;}',
-    '.gallery img{width:100%; display:block; transition:transform .5s ease;}',
-    '.gallery button:hover img{transform:scale(1.05);}',
+    /* gallery carousel */
+    '.carousel{position:relative;}',
+    '.car-viewport{overflow:hidden; border-radius:var(--radius);}',
+    '.car-track{display:flex; gap:14px; transition:transform .7s cubic-bezier(.4,0,.2,1); will-change:transform;}',
+    '.car-slide{flex:0 0 calc((100% - 28px) / 3);}',
+    '.car-slide button{display:block; width:100%; margin:0; padding:0; border:0; background:none;',
+    '  cursor:zoom-in; border-radius:14px; overflow:hidden; box-shadow:var(--shadow-sm);}',
+    '.car-slide img{width:100%; height:clamp(220px,26vw,330px); object-fit:cover; display:block; transition:transform .5s ease;}',
+    '.car-slide button:hover img{transform:scale(1.05);}',
+    '.car-btn{position:absolute; top:50%; transform:translateY(-50%); z-index:3;',
+    '  width:46px; height:46px; border-radius:50%; border:0; cursor:pointer;',
+    '  background:rgba(254,250,240,.94); color:var(--ink); box-shadow:var(--shadow-sm);',
+    '  display:flex; align-items:center; justify-content:center; transition:background .2s, color .2s;}',
+    '.car-btn:hover{background:#fff; color:var(--wine);}',
+    '.car-btn svg{width:20px; height:20px;}',
+    '.car-prev{left:-12px;} .car-next{right:-12px;}',
+    '@media(max-width:899px){ .car-slide{flex-basis:calc((100% - 14px) / 2);} }',
+    '@media(max-width:559px){ .car-slide{flex-basis:100%;} .car-prev{left:8px;} .car-next{right:8px;} }',
     '.lightbox{position:fixed; inset:0; background:rgba(46,15,19,.9); display:none;',
     '  align-items:center; justify-content:center; z-index:2000; padding:24px;}',
     '.lightbox.open{display:flex;}',
@@ -428,8 +453,7 @@
     '.includes{margin-top:22px; padding-top:18px; border-top:1px solid var(--line-2); text-align:center;}',
     '.inc-label{display:block; font-family:var(--body); font-weight:700; font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--taupe); margin-bottom:10px;}',
     '.inc{font-size:.98rem; color:var(--ink); margin-bottom:4px;}',
-    '@media(max-width:900px){ .plans{grid-template-columns:1fr;} .split,.split.rev{grid-template-columns:1fr;}',
-    '  .gallery{columns:2 160px;} }',
+    '@media(max-width:900px){ .plans{grid-template-columns:1fr;} .split,.split.rev{grid-template-columns:1fr;} }',
     /* CTA band */
     '.band{background:linear-gradient(135deg,#3a161b,#2e0f13); color:var(--cream); text-align:center;}',
     '.band h2{color:#fff; font-size:clamp(1.8rem,3.6vw,2.6rem); max-width:20ch; margin:0 auto 14px;}',
@@ -498,10 +522,7 @@
         body: 'Gentle, hands-light energy healing woven into your sessions to ease grief, soften anxiety, and restore a sense of balance and wholeness.' }) +
       serviceCard({ icon: ICON.users, title: 'Group Workshops', link: '/services',
         body: 'Shared experiences in community — space to connect, learn, and grow alongside others walking their own path toward healing.' });
-    var gal = IMG.gallery.slice(0, 8).map(function (f, i) {
-      return '<button data-full="' + wimg(f, 1400, 1400, 'fit') + '"><img src="' + wimg(f, 600, 700) +
-        '" alt="Moment of growth and connection at Silver Lining Pathways" loading="lazy"></button>';
-    }).join('');
+    var gal = galleryCarousel();
     return '' +
       hero({
         eyebrow: 'Equine-Assisted Coaching · Reiki · Energy Work',
@@ -534,7 +555,7 @@
       '<section class="sec"><div class="wrap">' +
       '<div class="center reveal" style="margin-bottom:36px;"><span class="eyebrow">Gallery of Growth</span>' +
       '<h2 class="title">Moments along the way</h2></div>' +
-      '<div class="gallery">' + gal + '</div></div></section>' +
+      gal + '</div></section>' +
       ctaBand('Your silver lining is waiting.', 'Whenever you\u2019re ready, we\u2019re here. Reach out for a conversation, or book your first session today.') +
       lightbox();
   }
@@ -896,6 +917,55 @@
   function lightbox() {
     return '<div class="lightbox" id="slpLB"><button class="x" aria-label="Close">×</button><img alt="Enlarged gallery image"></div>';
   }
+  function galleryCarousel() {
+    var slides = IMG.gallery.map(function (f) {
+      return '<div class="car-slide"><button data-full="' + wimg(f, 1400, 1400, 'fit') + '">' +
+        '<img src="' + wimg(f, 640, 520) + '" alt="A moment of growth and connection at Silver Lining Pathways" loading="lazy"></button></div>';
+    }).join('');
+    var aL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>';
+    var aR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>';
+    return '<div class="carousel">' +
+      '<button class="car-btn car-prev" aria-label="Previous images">' + aL + '</button>' +
+      '<div class="car-viewport"><div class="car-track">' + slides + '</div></div>' +
+      '<button class="car-btn car-next" aria-label="Next images">' + aR + '</button>' +
+      '</div>';
+  }
+  function wireCarousel(root) {
+    var car = root.querySelector('.carousel');
+    if (!car) return null;
+    var track = car.querySelector('.car-track');
+    var slides = Array.prototype.slice.call(track.children);
+    if (!slides.length) return null;
+    var idx = 0, timer = null;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function perView() { var w = car.clientWidth; return w >= 900 ? 3 : (w >= 560 ? 2 : 1); }
+    function stepPx() {
+      if (slides.length < 2) return car.clientWidth;
+      return slides[1].getBoundingClientRect().left - slides[0].getBoundingClientRect().left;
+    }
+    function maxIdx() { return Math.max(0, slides.length - perView()); }
+    function go(i) {
+      var m = maxIdx();
+      idx = i < 0 ? m : (i > m ? 0 : i);
+      track.style.transform = 'translateX(' + (-idx * stepPx()) + 'px)';
+    }
+    function nextSlide() { go(idx >= maxIdx() ? 0 : idx + 1); }
+    function prevSlide() { go(idx <= 0 ? maxIdx() : idx - 1); }
+    function start() { if (reduce) return; stop(); timer = setInterval(nextSlide, 3800); }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+    car.querySelector('.car-next').addEventListener('click', function () { nextSlide(); start(); });
+    car.querySelector('.car-prev').addEventListener('click', function () { prevSlide(); start(); });
+    car.addEventListener('mouseenter', stop);
+    car.addEventListener('mouseleave', start);
+    car.addEventListener('focusin', stop);
+    car.addEventListener('focusout', start);
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(function () { go(Math.min(idx, maxIdx())); }).observe(car);
+    }
+    window.addEventListener('resize', function () { go(Math.min(idx, maxIdx())); });
+    go(0); start();
+    return { pause: stop, resume: start };
+  }
 
   var TEMPLATES = {
     home: tplHome, about: tplAbout, services: tplServices, pricing: tplPricing,
@@ -948,18 +1018,23 @@
       sh.innerHTML = '<style>' + THEME + '\n' + PAGE_CSS + '</style>' + tpl(this);
       wireReveal(sh);
       injectSEO(page);
+      var carCtl = wireCarousel(sh);
 
       // gallery lightbox
       var lb = sh.getElementById('slpLB');
       if (lb) {
         var lbImg = lb.querySelector('img');
-        sh.querySelectorAll('.gallery button').forEach(function (b) {
+        sh.querySelectorAll('.car-slide button').forEach(function (b) {
           b.addEventListener('click', function () {
             lbImg.src = b.getAttribute('data-full'); lb.classList.add('open');
             document.body.style.overflow = 'hidden';
+            if (carCtl) carCtl.pause();
           });
         });
-        var close = function () { lb.classList.remove('open'); document.body.style.overflow = ''; };
+        var close = function () {
+          lb.classList.remove('open'); document.body.style.overflow = '';
+          if (carCtl) carCtl.resume();
+        };
         lb.querySelector('.x').addEventListener('click', close);
         lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
         document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
