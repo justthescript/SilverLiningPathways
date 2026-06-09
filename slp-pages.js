@@ -170,8 +170,45 @@
     '.reveal.in{opacity:1; transform:none;}',
     /* responsive */
     '@media(max-width:900px){ .grid-3{grid-template-columns:1fr;} .grid-2{grid-template-columns:1fr;} }',
+    /* small phones */
+    '@media(max-width:480px){',
+    '  .wrap{padding:0 16px;}',
+    '  .eyebrow{font-size:.8rem;}',
+    '  .btn{font-size:.92rem; padding:.85em 1.4em;}',
+    '}',
     '@media(prefers-reduced-motion:reduce){ .reveal{opacity:1; transform:none; transition:none;} .btn{transition:none;} }'
   ].join('\n');
+
+  /* ----------------------------------------- Wix custom-element resize */
+  /* Reports element height to the Wix parent frame so it sizes correctly
+     on every screen. Works for both Wix Studio embed iframes and classic. */
+  function wireWixResize(host) {
+    if (!('ResizeObserver' in window)) return;
+    var lastH = 0;
+    function report() {
+      var h = host.scrollHeight;
+      if (h < 10 || h === lastH) return;
+      lastH = h;
+      /* Wix Studio custom-element iframe messaging */
+      if (window.parent !== window) {
+        try {
+          window.parent.postMessage(JSON.stringify({ intent: 'resize', height: h }), '*');
+        } catch (e) {}
+      }
+      /* Legacy Wix SDK, if loaded */
+      if (window.Wix && window.Wix.setHeight) {
+        try { window.Wix.setHeight(h); } catch (e) {}
+      }
+    }
+    var ro = new ResizeObserver(report);
+    ro.observe(host);
+    /* Also watch the shadow root's first child so inner layout changes fire */
+    if (host.shadowRoot) {
+      var inner = host.shadowRoot.firstElementChild;
+      if (inner) ro.observe(inner);
+    }
+    report();
+  }
 
   /* ------------------------------------------------- reveal-on-scroll */
   function wireReveal(root) {
@@ -247,6 +284,7 @@
         '<div class="drawer">' + links +
         '<a class="btn btn--primary" href="/book-online">Book Online</a></div>';
 
+      wireWixResize(this);
       var burger = sh.querySelector('.burger');
       var drawer = sh.querySelector('.drawer');
       burger.addEventListener('click', function () {
@@ -314,6 +352,7 @@
         '<span><a href="/privacy-policy">Privacy Policy</a> &nbsp;·&nbsp; <a href="/accessibility-statement">Accessibility</a></span>' +
         '<span>Designed by <a href="https://omniscripts.io" target="_blank" rel="noopener">OmniScripts, Inc.</a></span>' +
         '</div></div>';
+      wireWixResize(this);
     };
     Object.setPrototypeOf(C, HTMLElement);
     return C;
@@ -366,7 +405,7 @@
     '  color:var(--cream); overflow:hidden;}',
     '.hero--compact{min-height:clamp(300px,46vh,420px);}',
     '.hero-media{position:absolute; inset:0;}',
-    '.hero-media img{width:100%; height:100%; object-fit:cover;}',
+    '.hero-media img{width:100%; height:100%; object-fit:cover; object-position:50% 30%;}',
     '.hero-veil{position:absolute; inset:0; background:',
     '  radial-gradient(120% 90% at 78% 8%, rgba(254,250,240,.35), transparent 55%),',
     '  linear-gradient(180deg, rgba(46,15,19,.18) 0%, rgba(46,15,19,.5) 60%, rgba(46,15,19,.74) 100%);}',
@@ -510,7 +549,35 @@
     '.two{display:grid; grid-template-columns:1fr 1fr; gap:18px;}',
     '@media(max-width:600px){ .two{grid-template-columns:1fr;} }',
     '.formnote{font-size:.85rem; color:var(--taupe); margin-top:6px;}',
-    '.ok{background:#eef6ef; border-left:4px solid #407c51; padding:16px 20px; border-radius:12px; color:#274d31;}'
+    '.ok{background:#eef6ef; border-left:4px solid #407c51; padding:16px 20px; border-radius:12px; color:#274d31;}',
+    /* ---- mobile overrides ---- */
+    '@media(max-width:768px){',
+    '  .hero{min-height:clamp(360px,60vh,520px);}',
+    '  .hero--compact{min-height:clamp(260px,44vh,380px);}',
+    '  .hero-inner{padding:44px 0;}',
+    '  .hero-title{font-size:clamp(1.9rem,7vw,3.2rem);}',
+    '  .hero-lead{font-size:clamp(1rem,3.4vw,1.15rem); margin-top:12px;}',
+    '  .hero-cta{margin-top:20px; gap:10px;}',
+    '}',
+    '@media(max-width:600px){',
+    '  .hero-cta{flex-direction:column; align-items:flex-start;}',
+    '  .hero-cta .btn{width:100%; justify-content:center;}',
+    '  .band .hero-cta{align-items:center;}',
+    '  .figure img{max-height:340px; object-fit:cover; object-position:50% 20%;}',
+    '  .car-slide img{height:clamp(180px,52vw,260px);}',
+    '  .svcblock{padding:clamp(28px,5vw,50px) 0;}',
+    '  .why-open{padding:clamp(56px,10vw,100px) 0;}',
+    '  .why-q{font-size:clamp(1.25rem,5vw,1.8rem);}',
+    '  .plan .price{font-size:clamp(2.2rem,10vw,3rem);}',
+    '}',
+    '@media(max-width:480px){',
+    '  .hero-title{font-size:clamp(1.75rem,9vw,2.8rem);}',
+    '  .title{font-size:clamp(1.6rem,7vw,2.4rem);}',
+    '  .lead{font-size:1rem;}',
+    '  .svc-ic{width:46px; height:46px;}',
+    '  .card{padding:18px 16px;}',
+    '  .car-btn{width:38px; height:38px;}',
+    '}'
   ].join('\n');
 
   /* ---- page templates ---- */
@@ -720,7 +787,6 @@
       lead: 'Join us for group workshops, seasonal gatherings, and community events designed to foster connection and shared growth.',
       cta: { label: 'See all upcoming events', href: '/event-list' },
       body: 'Our events bring people together in a supportive setting — whether it\u2019s a hands-on equine workshop, an energy-healing circle, or a seasonal community gathering. New dates are added regularly, so check back often or join the mailing list to be the first to know.',
-      note: 'Upcoming dates and registration appear below.'
     });
   }
   function tplBook() {
@@ -730,7 +796,6 @@
       lead: 'Choose a time that works for you and we\u2019ll take it from there. No horse experience needed.',
       cta: { label: 'Choose a time', href: '/book-online' },
       body: 'Booking takes just a moment. Select the service that fits — equine-assisted coaching, Reiki, or a group session — pick an available time, and you\u2019ll receive a confirmation. If you\u2019re unsure which service is right for you, send an inquiry first and we\u2019ll guide you.',
-      note: 'Live availability and booking appear below.'
     });
   }
   function tplGroups() {
@@ -750,7 +815,6 @@
       cta: { label: 'Browse all groups', href: '/groups' },
       body: 'Becoming part of a group means you don\u2019t walk your path alone. Post your thoughts, share what\u2019s helping, ask questions, and encourage one another between sessions.',
       extra: '<div class="grid grid-2" style="margin-top:36px;">' + cards + '</div>',
-      note: 'The full groups feed appears below.'
     });
   }
   function tplMembers() {
@@ -765,7 +829,6 @@
         serviceCard({ icon: ICON.users, title: 'Join groups', body: 'Connect with the community between sessions.' }) +
         serviceCard({ icon: ICON.heart, title: 'Earn rewards', body: 'Track your loyalty points and unlock perks.' }) +
         '</div>',
-      note: 'The member login and dashboard appear below.'
     });
   }
   function tplLoyalty() {
@@ -780,7 +843,6 @@
         serviceCard({ icon: ICON.sun, title: 'Track', body: 'Watch your balance grow inside your member space.' }) +
         serviceCard({ icon: ICON.heart, title: 'Redeem', body: 'Put points toward sessions and member perks.' }) +
         '</div>',
-      note: 'Sign in to view and redeem your points below.'
     });
   }
   function appIntro(o) {
@@ -790,7 +852,6 @@
       '<p class="lead">' + o.body + '</p>' +
       '<div class="lining mt"><span></span></div>' +
       '</div>' + (o.extra ? '<div class="wrap">' + o.extra + '</div>' : '') +
-      '<div class="wrap center" style="margin-top:34px;"><p class="callout reveal" style="display:inline-block; text-align:left;">' + o.note + '</p></div>' +
       '</section>';
   }
 
@@ -1017,6 +1078,7 @@
       var sh = this.attachShadow({ mode: 'open' });
       sh.innerHTML = '<style>' + THEME + '\n' + PAGE_CSS + '</style>' + tpl(this);
       wireReveal(sh);
+      wireWixResize(this);
       injectSEO(page);
       var carCtl = wireCarousel(sh);
 
