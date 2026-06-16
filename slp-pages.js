@@ -859,22 +859,7 @@
     return '' +
       hero({ compact: true, eyebrow: 'Inquiry', title: 'Start a conversation',
         lead: 'Tell us a little about you and what you\u2019re hoping for. There\u2019s no pressure — just a first step.' }) +
-      '<section class="sec"><div class="wrap"><div class="form reveal" style="margin:0 auto;">' +
-      '<form id="slpInquiry" novalidate>' +
-      '<div class="two"><label class="field"><span>First name</span><input name="first" required autocomplete="given-name"></label>' +
-      '<label class="field"><span>Last name</span><input name="last" autocomplete="family-name"></label></div>' +
-      '<div class="two"><label class="field"><span>Email</span><input type="email" name="email" required autocomplete="email"></label>' +
-      '<label class="field"><span>Phone</span><input type="tel" name="phone" autocomplete="tel"></label></div>' +
-      '<label class="field"><span>I\u2019m interested in</span><select name="service">' +
-      '<option value="">Select a service…</option>' +
-      '<option>Equine-Assisted Coaching</option><option>Reiki &amp; Energy Work</option>' +
-      '<option>Group Workshop</option><option>Not sure yet — help me decide</option></select></label>' +
-      '<label class="field"><span>How can we help?</span><textarea name="message" placeholder="Share whatever feels comfortable — what\u2019s bringing you here, questions you have, or what you\u2019re hoping for." required></textarea></label>' +
-      '<button class="btn btn--primary" type="submit">Send my inquiry</button>' +
-      '<p class="formnote">We\u2019ll reply by email or phone. Prefer to reach out directly? Call or text <a href="' + PHONE_HREF + '">' + PHONE + '</a> or email <a href="mailto:' + EMAIL + '">' + EMAIL + '</a>.</p>' +
-      '</form>' +
-      '<div id="slpOk" class="ok" style="display:none;">Thank you — your message is on its way. We\u2019ll be in touch soon.</div>' +
-      '</div></div></section>';
+      '<section class="sec"><div class="wrap"></div></section>';
   }
 
   function whyOpen() {
@@ -1102,36 +1087,6 @@
         document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
       }
 
-      // inquiry form (mailto fallback; set data-endpoint for a GAS/webhook POST)
-      var form = sh.getElementById('slpInquiry');
-      if (form) {
-        var endpoint = this.getAttribute('data-endpoint');
-        var okBox = sh.getElementById('slpOk');
-        var self = this;
-        form.addEventListener('submit', function (e) {
-          e.preventDefault();
-          var fd = {}; new FormData(form).forEach(function (v, k) { fd[k] = v; });
-          fd.type = self.getAttribute('data-lead-type') || 'inquiry';
-          fd.source = 'website';
-          fd.page = location.pathname;
-          if (!fd.first || !fd.email || !fd.message) {
-            form.reportValidity && form.reportValidity(); return;
-          }
-          var done = function () { form.style.display = 'none'; okBox.style.display = 'block'; };
-          if (endpoint) {
-            fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(fd) })
-              .then(done).catch(function () { mailtoFallback(fd); });
-          } else { mailtoFallback(fd); done(); }
-        });
-        function mailtoFallback(fd) {
-          var body = 'Name: ' + (fd.first || '') + ' ' + (fd.last || '') + '\n' +
-            'Email: ' + (fd.email || '') + '\nPhone: ' + (fd.phone || '') + '\n' +
-            'Interested in: ' + (fd.service || '') + '\n\n' + (fd.message || '');
-          window.location.href = 'mailto:' + EMAIL + '?subject=' +
-            encodeURIComponent('Website inquiry — ' + (fd.first || '') + ' ' + (fd.last || '')) +
-            '&body=' + encodeURIComponent(body);
-        }
-      }
     };
     C.prototype.disconnectedCallback = function () { document.body.style.overflow = ''; };
     Object.setPrototypeOf(C, HTMLElement);
