@@ -135,6 +135,7 @@
     '.lead{font-size:clamp(1.05rem,1.6vw,1.22rem); color:var(--ink-2); max-width:62ch;}',
     /* sections */
     '.sec{padding:clamp(56px,8vw,108px) 0;}',
+    '#inquiry-form-section{padding:0;}',
     '.sec--panel{background:var(--panel);}',
     '.sec--cream2{background:var(--cream-2);}',
     '.title{font-size:clamp(1.9rem,4.2vw,3rem); letter-spacing:-.01em;}',
@@ -859,7 +860,7 @@
     return '' +
       hero({ compact: true, eyebrow: 'Inquiry', title: 'Start a conversation',
         lead: 'Tell us a little about you and what you\u2019re hoping for. There\u2019s no pressure — just a first step.' }) +
-      '<section class="sec"><div class="wrap"></div></section>';
+      '<section id="inquiry-form-section"><div class="wrap"></div></section>';
   }
 
   function whyOpen() {
