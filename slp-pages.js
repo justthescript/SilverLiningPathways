@@ -8,7 +8,8 @@
  *
  * data-page values:
  *   home | about | services | pricing | events | book |
- *   groups | members | inquiry | loyalty | privacy | accessibility
+ *   groups | members | inquiry | loyalty | privacy | accessibility |
+ *   postpartum | children-teens | veterans | parents-caregivers | harvest-moon
  *
  * DEPLOY (matches the BDDC pattern):
  *   1. Push this file to a public GitHub repo.
@@ -1014,11 +1015,147 @@
     return { pause: stop, resume: start };
   }
 
+  /* ================ NEW SERVICE PAGES (5 pages) ================ */
+  
+  /* Template: Postpartum Depression Coaching */
+  function tplPostpartum(el) {
+    var img = wimg(IMG.heroMist, 1600, 700, 'fill');
+    return '<section class="hero"><div class="hero-media"><img src="' + img +
+      '" alt="Woman with horse in peaceful field" loading="lazy"></div><div class="hero-veil"></div>' +
+      '<div class="wrap hero-inner reveal"><h1 class="hero-title">Postpartum Depression Support</h1>' +
+      '<p class="lead">Equine-assisted coaching for women navigating postpartum depression, anxiety, and emotional overwhelm.</p>' +
+      '<div class="hero-cta"><a class="btn btn--primary" href="/book-online">Book a Session</a>' +
+      '<a class="btn btn--ghost" href="/inquiry-services-page">Learn More</a></div></div></section>' +
+      '<section class="sec"><div class="wrap"><h2 class="title">You Don\'t Have to Carry This Alone</h2>' +
+      '<p class="lead" style="margin-top:1em;">Working alongside horses creates a gentle, grounding space for women healing from postpartum depression, anxiety, emotional overwhelm, isolation, loss of identity, and major life changes.</p>' +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2em;margin-top:2.5em;">' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Create Grounding</h3><p style="color:#5a4042;">Learn calming practices and reconnect with your body in a safe, judgment-free environment.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Rebuild Confidence</h3><p style="color:#5a4042;">Restore self-trust and confidence through gentle, equine-assisted interactions.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Practice Boundaries</h3><p style="color:#5a4042;">Develop healthy communication and emotional boundaries.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Strengthen Self-Compassion</h3><p style="color:#5a4042;">Learn to support yourself with kindness and understanding.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Emotional Regulation</h3><p style="color:#5a4042;">Develop coping skills to navigate anxiety and emotional overwhelm.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Connection Without Pressure</h3><p style="color:#5a4042;">Experience genuine connection without the pressure to find perfect words.</p></div>' +
+      '</div></section>' +
+      '<section class="sec sec--panel"><div class="wrap"><h2 class="title">What to Expect</h2>' +
+      '<p style="margin-top:1.5em; max-width:72ch;">Sessions combine equine interaction, mindfulness practices, and coaching conversation. Horses provide real-time emotional feedback, helping you recognize patterns and develop resilience. Sessions are customized to your needs—no prior horse experience necessary.</p></div></section>' +
+      '<section class="sec band"><div class="wrap"><h2>Ready to Begin Your Healing Journey?</h2>' +
+      '<p>Schedule a free 15-minute consultation to learn how equine-assisted coaching can support your recovery and growth.</p>' +
+      '<a class="btn btn--light" href="/book-online">Book Your Free Consultation</a></div></section>';
+  }
+
+  /* Template: Children & Teens Coaching */
+  function tplChildrenTeens(el) {
+    var img = wimg(IMG.heroMist, 1600, 700, 'fill');
+    return '<section class="hero"><div class="hero-media"><img src="' + img +
+      '" alt="Child connecting with horse at fence" loading="lazy"></div><div class="hero-veil"></div>' +
+      '<div class="wrap hero-inner reveal"><h1 class="hero-title">Equine Coaching for Children & Teens</h1>' +
+      '<p class="lead">Building confidence, emotional awareness, and healthy communication skills through horse-assisted coaching for neurodivergent and struggling youth.</p>' +
+      '<div class="hero-cta"><a class="btn btn--primary" href="/book-online">Book a Session</a>' +
+      '<a class="btn btn--ghost" href="/inquiry-services-page">Tell Us More</a></div></div></section>' +
+      '<section class="sec"><div class="wrap"><h2 class="title">Different Minds, Different Strengths</h2>' +
+      '<p class="lead" style="margin-top:1em;">Every child processes the world differently. Horses meet your child where they are, providing patient, non-judgmental connection while building confidence and self-awareness.</p>' +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2em;margin-top:2.5em;">' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Build Confidence & Self-Esteem</h3><p style="color:#5a4042;">Develop a stronger sense of self-worth through successful interactions with horses.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Practice Healthy Boundaries</h3><p style="color:#5a4042;">Learn to express needs and communicate respectfully.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Develop Communication Skills</h3><p style="color:#5a4042;">Improve social interaction and emotional expression in a safe setting.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Emotional Regulation</h3><p style="color:#5a4042;">Learn to recognize and manage emotions effectively.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Increase Body Awareness</h3><p style="color:#5a4042;">Strengthen understanding of body signals and sensory experiences.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Problem-Solving Skills</h3><p style="color:#5a4042;">Build resilience and creative thinking through real-time horse interaction.</p></div>' +
+      '</div></section>' +
+      '<section class="sec sec--panel"><div class="wrap"><h2 class="title">Perfect for Kids & Teens Navigating:</h2>' +
+      '<ul style="margin:0;padding-left:1.5em;list-style:none;"><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Autism spectrum experiences</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">ADHD & neurodivergence</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Anxiety and social anxiety</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Low self-confidence</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Emotional regulation challenges</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Grief and loss</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Social difficulties</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Life transitions</li></ul></div></section>' +
+      '<section class="sec band"><div class="wrap"><h2>Sometimes the greatest breakthroughs happen when there\'s a horse beside you.</h2>' +
+      '<p>Let us help your child or teen discover their strength and potential.</p>' +
+      '<a class="btn btn--light" href="/book-online">Start Today</a></div></section>';
+  }
+
+  /* Template: Veterans Coaching */
+  function tplVeterans(el) {
+    var img = wimg(IMG.heroMist, 1600, 700, 'fill');
+    return '<section class="hero"><div class="hero-media"><img src="' + img +
+      '" alt="Veteran connecting with horse" loading="lazy"></div><div class="hero-veil"></div>' +
+      '<div class="wrap hero-inner reveal"><h1 class="hero-title">Equine Coaching for Veterans</h1>' +
+      '<p class="lead">A supportive space for veterans healing from transition, trauma, isolation, and identity shifts. You served others—now let us support you.</p>' +
+      '<div class="hero-cta"><a class="btn btn--primary" href="/book-online">Book a Session</a>' +
+      '<a class="btn btn--ghost" href="/inquiry-services-page">Get Support</a></div></div></section>' +
+      '<section class="sec"><div class="wrap"><h2 class="title">You Carried the Mission. You Don\'t Have to Carry Everything Alone.</h2>' +
+      '<p class="lead" style="margin-top:1em;">Horses offer something unique: honesty without judgment, presence without pressure. Working with horses helps veterans process transition, rebuild connection, and find purpose beyond service.</p>' +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2em;margin-top:2.5em;">' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Create Calm & Grounding</h3><p style="color:#5a4042;">Find moments of peace and stillness in a supportive equine environment.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Reconnect with Emotions</h3><p style="color:#5a4042;">Process grief, loss, and trauma in a safe, non-threatening space.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Rebuild Trust & Confidence</h3><p style="color:#5a4042;">Develop healthy relationships and restore self-trust after service.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Strengthen Communication</h3><p style="color:#5a4042;">Learn to express yourself and process experiences authentically.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Restore Identity & Purpose</h3><p style="color:#5a4042;">Discover meaning and direction in your civilian life.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Experience Connection</h3><p style="color:#5a4042;">Find understanding without judgment or pressure to perform.</p></div>' +
+      '</div></section>' +
+      '<section class="sec sec--panel"><div class="wrap"><h2 class="title">Supporting Veterans Navigating:</h2>' +
+      '<ul style="margin:0;padding-left:1.5em;list-style:none;"><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Transition to civilian life</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Service-related stress & trauma</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Grief and loss</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Isolation and disconnection</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Changes in identity and purpose</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Difficulty trusting or connecting</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Family changes and relationship strain</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Trauma-related emotional challenges</li></ul></div></section>' +
+      '<section class="sec band"><div class="wrap"><h2>Your Service Mattered. Your Healing Matters Too.</h2>' +
+      '<p>Reach out for support designed specifically for veterans by someone who understands the unique challenges of transition.</p>' +
+      '<a class="btn btn--light" href="/book-online">Connect With Us</a></div></section>';
+  }
+
+  /* Template: Parents & Caregivers Coaching */
+  function tplParents(el) {
+    var img = wimg(IMG.heroMist, 1600, 700, 'fill');
+    return '<section class="hero"><div class="hero-media"><img src="' + img +
+      '" alt="Parent with horse in peaceful field" loading="lazy"></div><div class="hero-veil"></div>' +
+      '<div class="wrap hero-inner reveal"><h1 class="hero-title">Equine Coaching for Parents & Caregivers</h1>' +
+      '<p class="lead">Reduce overwhelm, rebuild connection, and practice self-compassion. Supporting your loved ones starts with supporting yourself.</p>' +
+      '<div class="hero-cta"><a class="btn btn--primary" href="/book-online">Book a Session</a>' +
+      '<a class="btn btn--ghost" href="/inquiry-services-page">Learn How</a></div></div></section>' +
+      '<section class="sec"><div class="wrap"><h2 class="title">You Support Them. Let Us Support You.</h2>' +
+      '<p class="lead" style="margin-top:1em;">Parenting and caregiving—especially when navigating neurodivergence, anxiety, or grief—can feel isolating and overwhelming. Horses provide a grounding presence and help you reconnect with your own needs, resilience, and strength.</p>' +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2em;margin-top:2.5em;">' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Create Calm & Grounding</h3><p style="color:#5a4042;">Find moments of peace and reset your nervous system.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Reconnect With Your Needs</h3><p style="color:#5a4042;">Prioritize self-care and emotional wellness.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Practice Healthy Boundaries</h3><p style="color:#5a4042;">Learn to say no and protect your energy.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Reduce Overwhelm</h3><p style="color:#5a4042;">Manage stress and develop sustainable coping strategies.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Build Confidence & Self-Trust</h3><p style="color:#5a4042;">Strengthen your sense of capability and self-worth.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Process Emotions Without Judgment</h3><p style="color:#5a4042;">Experience compassionate space to express frustration, grief, or doubt.</p></div>' +
+      '</div></section>' +
+      '<section class="sec sec--panel"><div class="wrap"><h2 class="title">Support for Parents & Caregivers of:</h2>' +
+      '<ul style="margin:0;padding-left:1.5em;list-style:none;"><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Children with autism</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">ADHD and neurodivergent children</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Anxiety and emotional regulation challenges</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Advocacy fatigue and burnout</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Caregiver stress and overwhelm</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Isolation and lack of support</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Grief and loss</li><li style="position:relative;margin-bottom:.9em;padding-left:1.6em;line-height:1.7;">Family transitions and changes</li></ul></div></section>' +
+      '<section class="sec band"><div class="wrap"><h2>Caring for Yourself Is Part of Caring for Them.</h2>' +
+      '<p>Schedule a session to reconnect with yourself and build resilience for the journey ahead.</p>' +
+      '<a class="btn btn--light" href="/book-online">Start Your Self-Care Journey</a></div></section>';
+  }
+
+  /* Template: Harvest Moon Return Event */
+  function tplHarvestMoon(el) {
+    var img = wimg(IMG.heroMist, 1600, 700, 'fill');
+    return '<section class="hero"><div class="hero-media"><img src="' + img +
+      '" alt="Group gathering under moonlight with fire" loading="lazy"></div><div class="hero-veil"></div>' +
+      '<div class="wrap hero-inner reveal"><h1 class="hero-title">Harvest Moon Return 2026</h1>' +
+      '<p class="lead">A night of release, renewal, and community. Sound bath, Reiki, reflection, and connection under the September sky.</p>' +
+      '<div class="hero-cta"><a class="btn btn--primary" href="tel:+12193619900">Text to Register: 219-361-9900</a>' +
+      '<a class="btn btn--ghost" href="/inquiry-services-page">More Details</a></div></div></section>' +
+      '<section class="sec"><div class="wrap"><h2 class="title">A Night of Release and Renewal</h2>' +
+      '<p class="lead" style="margin-top:1.5em;"><strong>Saturday, September 26, 2026 | 6:30–9:30 PM</strong><br>Private Residence, Crown Point, Indiana<br><strong>$65 per person</strong></p>' +
+      '<p style="margin-top:1.5em; max-width:72ch;">Join us for an evening designed to help you let go, reconnect, and experience renewal. This intimate gathering brings together somatic movement, powerful affirmation ritual, Reiki energy work, sound bath immersion, reflection, community, and seasonal refreshments in a warm, welcoming space.</p>' +
+      '<h3 style="margin-top:2.5em; font-size:1.6rem;">What You\'ll Experience:</h3>' +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2em;margin-top:1.5em;">' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Somatic Movement Session</h3><p style="color:#5a4042;">Begin with gentle, intentional body movement to release tension and reconnect with your physical self.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Powerful Affirmation Ritual</h3><p style="color:#5a4042;">Set intentions and affirm what you\'re calling into your life.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Reiki Energy Work</h3><p style="color:#5a4042;">Experience healing touch and energy balancing.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Sound Bath</h3><p style="color:#5a4042;">Immerse in the vibrations of singing bowls and instruments designed to soothe your nervous system.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Reflection & Community</h3><p style="color:#5a4042;">Share insights with others and experience the power of collective healing.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Seasonal Refreshments & Snacks</h3><p style="color:#5a4042;">Enjoy seasonal treats and connect with local vendors.</p></div>' +
+      '</div></section>' +
+      '<section class="sec sec--panel"><div class="wrap"><h2 class="title">Local Vendors on Site</h2>' +
+      '<p>Shop unique products and support local makers while enjoying the evening.</p></div></section>' +
+      '<section class="sec band"><div class="wrap"><h2>All Are Welcome. Come as You Are.</h2>' +
+      '<p>This gathering is for anyone seeking connection, healing, and community under the autumn moon.</p>' +
+      '<a class="btn btn--light" href="tel:+12193619900">Text to Register</a></div></section>';
+  }
+
   var TEMPLATES = {
     home: tplHome, about: tplAbout, services: tplServices, pricing: tplPricing,
     events: tplEvents, book: tplBook, groups: tplGroups, members: tplMembers,
     inquiry: tplInquiry, loyalty: tplLoyalty, why: tplWhy,
-    privacy: tplPrivacy, accessibility: tplAccessibility
+    privacy: tplPrivacy, accessibility: tplAccessibility,
+    postpartum: tplPostpartum, 'children-teens': tplChildrenTeens,
+    veterans: tplVeterans, 'parents-caregivers': tplParents, 'harvest-moon': tplHarvestMoon
   };
 
   /* ---- SEO: inject JSON-LD structured data once ---- */
@@ -1044,6 +1181,53 @@
         provider: { '@type': 'Organization', name: 'Silver Lining Pathways LLC' },
         areaServed: ['Indiana', 'California', 'Arizona'],
         description: 'Equine-assisted coaching, Reiki, and group workshops supporting emotional healing and personal growth.'
+      };
+    } else if (page === 'postpartum') {
+      data = {
+        '@context': 'https://schema.org', '@type': 'Service',
+        name: 'Equine-Assisted Coaching for Postpartum Depression',
+        provider: { '@type': 'Organization', name: 'Silver Lining Pathways LLC', telephone: '+1-219-361-9900' },
+        areaServed: ['Indiana', 'California', 'Arizona'],
+        serviceType: 'Equine-Assisted Coaching',
+        description: 'Compassionate equine-assisted coaching for women navigating postpartum depression, anxiety, emotional overwhelm, and identity changes.'
+      };
+    } else if (page === 'children-teens') {
+      data = {
+        '@context': 'https://schema.org', '@type': 'Service',
+        name: 'Equine-Assisted Coaching for Children & Teens',
+        provider: { '@type': 'Organization', name: 'Silver Lining Pathways LLC', telephone: '+1-219-361-9900' },
+        areaServed: ['Indiana', 'California', 'Arizona'],
+        serviceType: 'Equine-Assisted Coaching for Youth',
+        description: 'Equine-assisted coaching for children and teens navigating autism, ADHD, anxiety, social challenges, and emotional regulation.'
+      };
+    } else if (page === 'veterans') {
+      data = {
+        '@context': 'https://schema.org', '@type': 'Service',
+        name: 'Equine-Assisted Coaching for Veterans',
+        provider: { '@type': 'Organization', name: 'Silver Lining Pathways LLC', telephone: '+1-219-361-9900' },
+        areaServed: ['Indiana', 'California', 'Arizona'],
+        serviceType: 'Veteran Support Coaching',
+        description: 'Equine-assisted coaching supporting veterans healing from service-related trauma, transition, grief, and isolation.'
+      };
+    } else if (page === 'parents-caregivers') {
+      data = {
+        '@context': 'https://schema.org', '@type': 'Service',
+        name: 'Equine-Assisted Coaching for Parents & Caregivers',
+        provider: { '@type': 'Organization', name: 'Silver Lining Pathways LLC', telephone: '+1-219-361-9900' },
+        areaServed: ['Indiana', 'California', 'Arizona'],
+        serviceType: 'Parent & Caregiver Coaching',
+        description: 'Support for parents and caregivers navigating stress, overwhelm, neurodivergent parenting, and caregiver burnout through equine-assisted coaching.'
+      };
+    } else if (page === 'harvest-moon') {
+      data = {
+        '@context': 'https://schema.org', '@type': 'Event',
+        name: 'Harvest Moon Return 2026',
+        description: 'A night of release, renewal, and community featuring sound bath, Reiki, somatic movement, and seasonal refreshments.',
+        startDate: '2026-09-26T18:30:00',
+        endDate: '2026-09-26T21:30:00',
+        location: { '@type': 'Place', address: { '@type': 'PostalAddress', addressLocality: 'Crown Point', addressRegion: 'IN' } },
+        offers: { '@type': 'Offer', price: '65', priceCurrency: 'USD' },
+        organizer: { '@type': 'Organization', name: 'Silver Lining Pathways LLC', telephone: '+1-219-361-9900' }
       };
     }
     if (!data) return;
