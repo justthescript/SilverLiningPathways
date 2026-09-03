@@ -188,7 +188,8 @@
     if (!('ResizeObserver' in window)) return;
     var lastH = 0;
     function report() {
-      var h = host.scrollHeight;
+      var sh = host.shadowRoot;
+      var h = sh ? sh.firstElementChild.scrollHeight : host.scrollHeight;
       if (h < 10 || h === lastH) return;
       lastH = h;
       /* Wix Studio custom-element iframe messaging */
