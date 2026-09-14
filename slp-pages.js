@@ -53,6 +53,12 @@
   var NAV = [
     { label: 'Home',            href: '/' },
     { label: 'About',           href: '/about' },
+    { label: 'Who We Support', group: [
+        { label: 'Postpartum Depression Coaching',        href: '/postpartum-depression-coaching' },
+        { label: 'Equine Coaching for Children & Teens',   href: '/equine-coaching-for-children-teens' },
+        { label: 'Equine Coaching for Veterans',            href: '/equine-coaching-for-veterans' },
+        { label: 'Coaching for Parents & Caregivers',       href: '/coaching-for-parents-caregivers' }
+      ] },
     { label: 'Services',        href: '/services' },
     { label: 'Plans & Pricing', href: '/pricing-plans/plans-pricing' },
     { label: 'Events',          href: '/event-list' },
@@ -62,6 +68,16 @@
     { label: 'Inquiry',         href: '/inquiry-services-page' },
     { label: 'Loyalty',         href: '/loyalty' }
   ];
+  // Flat list of every real link in NAV (dropdown groups expanded) — used
+  // anywhere a simple list of links is needed (footer, mobile drawer).
+  function navFlat() {
+    var out = [];
+    NAV.forEach(function (n) {
+      if (n.group) { n.group.forEach(function (g) { out.push(g); }); }
+      else out.push(n);
+    });
+    return out;
+  }
   var PHONE = '219-361-9900';
   var PHONE_HREF = 'tel:+12193619900';
   var EMAIL = 'info@silverliningpathwaysllc.com';
@@ -238,8 +254,28 @@
     C.prototype.connectedCallback = function () {
       injectFonts();
       var sh = this.attachShadow({ mode: 'open' });
-      var links = NAV.map(function (n) {
+      var caret = '<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+        'stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+      var navHTML = NAV.map(function (n) {
+        if (n.group) {
+          var sub = n.group.map(function (g) {
+            return '<a class="navgrp-link" href="' + g.href + '">' + g.label + '</a>';
+          }).join('');
+          return '<div class="navgrp"><button type="button" class="nl navgrp-btn" aria-haspopup="true" aria-expanded="false">' +
+            n.label + caret + '</button><div class="navgrp-panel">' + sub + '</div></div>';
+        }
         return '<a class="nl" href="' + n.href + '">' + n.label + '</a>';
+      }).join('');
+      // Drawer (mobile) gets a flat list — dropdown groups are shown as a
+      // labeled cluster of links rather than a click-to-open panel.
+      var links = NAV.map(function (n) {
+        if (n.group) {
+          var sub = n.group.map(function (g) {
+            return '<a href="' + g.href + '">' + g.label + '</a>';
+          }).join('');
+          return '<div class="drawer-grp"><span class="drawer-grp-label">' + n.label + '</span>' + sub + '</div>';
+        }
+        return '<a href="' + n.href + '">' + n.label + '</a>';
       }).join('');
       sh.innerHTML =
         '<style>' + THEME +
@@ -259,6 +295,20 @@
         '  background:var(--wine); transition:right .28s ease;}' +
         '.nl:hover{color:var(--wine);} .nl:hover::after{right:0;}' +
         '.cta{margin-left:6px; white-space:nowrap;}' +
+        '.navgrp{position:relative;}' +
+        '.navgrp-btn{display:inline-flex; align-items:center; gap:4px; background:none; border:0;' +
+        '  font-family:inherit; cursor:pointer;}' +
+        '.navgrp-btn .caret{width:13px; height:13px; transition:transform .2s ease;}' +
+        '.navgrp-btn[aria-expanded="true"]{color:var(--wine);}' +
+        '.navgrp-btn[aria-expanded="true"] .caret{transform:rotate(180deg);}' +
+        '.navgrp-panel{position:absolute; top:calc(100% + 14px); left:50%; transform:translateX(-50%) translateY(-6px);' +
+        '  min-width:270px; background:#fff; border:1px solid var(--line); border-radius:var(--radius);' +
+        '  box-shadow:var(--shadow); padding:10px; display:flex; flex-direction:column; gap:2px;' +
+        '  opacity:0; visibility:hidden; pointer-events:none; transition:opacity .18s ease, transform .18s ease;}' +
+        '.navgrp.open .navgrp-panel{opacity:1; visibility:visible; pointer-events:auto; transform:translateX(-50%) translateY(0);}' +
+        '.navgrp-link{display:block; padding:11px 14px; border-radius:12px; font-size:.92rem; font-weight:600;' +
+        '  color:var(--ink); white-space:normal;}' +
+        '.navgrp-link:hover{background:var(--rose-soft); color:var(--wine);}' +
         '.burger{display:none; width:46px; height:46px; border:1px solid var(--line);' +
         '  border-radius:12px; background:transparent; cursor:pointer; align-items:center; justify-content:center;}' +
         '.burger span,.burger span::before,.burger span::after{content:""; display:block;' +
@@ -274,13 +324,17 @@
         '.drawer a{font-family:var(--display); font-size:1.35rem; color:var(--ink);' +
         '  padding:14px 0; border-bottom:1px solid var(--line-2);}' +
         '.drawer .btn{margin-top:22px; justify-content:center;}' +
+        '.drawer-grp{display:flex; flex-direction:column;}' +
+        '.drawer-grp-label{font-family:var(--body); font-weight:700; font-size:.72rem; letter-spacing:.14em;' +
+        '  text-transform:uppercase; color:var(--wine); padding:16px 0 4px;}' +
+        '.drawer-grp a{font-size:1.1rem; padding:10px 0 10px 14px;}' +
         '@media(max-width:1024px){ .nav{display:none;} .burger{display:inline-flex;} }' +
         '</style>' +
         '<div class="bar"><div class="wrap"><div class="row">' +
         '<a class="brand" href="/">' +
         '<img src="' + wimg(IMG.heroMist, 80, 80) + '" alt="Silver Lining Pathways logo — horses in morning mist">' +
         '<span><b>Silver Lining Pathways</b><small>equine &amp; energy work</small></span></a>' +
-        '<nav class="nav">' + links +
+        '<nav class="nav">' + navHTML +
         '<a class="btn btn--primary cta" href="/book-online">Book Online</a></nav>' +
         '<button class="burger" aria-label="Open menu" aria-expanded="false"><span></span></button>' +
         '</div></div></div>' +
@@ -302,8 +356,34 @@
           document.body.style.overflow = '';
         });
       });
+
+      // Desktop "Who We Support" style dropdowns: click to open, click
+      // anywhere else on the page to close.
+      function closeAllGroups() {
+        sh.querySelectorAll('.navgrp.open').forEach(function (g) {
+          g.classList.remove('open');
+          g.querySelector('.navgrp-btn').setAttribute('aria-expanded', 'false');
+        });
+      }
+      sh.querySelectorAll('.navgrp-btn').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var grp = btn.closest('.navgrp');
+          var wasOpen = grp.classList.contains('open');
+          closeAllGroups();
+          if (!wasOpen) {
+            grp.classList.add('open');
+            btn.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+      document.addEventListener('click', closeAllGroups);
+      this._closeAllGroups = closeAllGroups;
     };
-    C.prototype.disconnectedCallback = function () { document.body.style.overflow = ''; };
+    C.prototype.disconnectedCallback = function () {
+      document.body.style.overflow = '';
+      if (this._closeAllGroups) document.removeEventListener('click', this._closeAllGroups);
+    };
     Object.setPrototypeOf(C, HTMLElement);
     return C;
   })();
@@ -319,7 +399,7 @@
       injectFonts();
       var sh = this.attachShadow({ mode: 'open' });
       var yr = new Date().getFullYear();
-      var cols = NAV.map(function (n) { return '<a href="' + n.href + '">' + n.label + '</a>'; }).join('');
+      var cols = navFlat().map(function (n) { return '<a href="' + n.href + '">' + n.label + '</a>'; }).join('');
       sh.innerHTML =
         '<style>' + THEME +
         ':host{display:block; background:var(--ink); color:#f3e7df;}' +
@@ -783,13 +863,29 @@
       ctaBand('Not sure where to start?', 'Tell us a little about what you\u2019re looking for and we\u2019ll recommend the right fit.');
   }
 
+  function featuredEventCard(e) {
+    return '<article class="card svc reveal" style="text-align:left; max-width:640px; margin:0 auto;">' +
+      '<div class="svc-ic">' + ICON.calendar + '</div>' +
+      '<span class="tag">Upcoming Event</span>' +
+      '<h3>' + e.title + '</h3>' +
+      '<p>' + e.body + '</p>' +
+      '<p style="color:var(--wine); font-weight:700; margin-top:.6em;">' + e.when + '</p>' +
+      '<a class="svc-link" href="' + e.href + '">' + (e.linkLabel || 'View event details') + ' \u2192</a>' +
+      '</article>';
+  }
   function tplEvents() {
     return appIntro({
       eyebrow: 'Events', icon: ICON.calendar,
       title: 'Workshops & gatherings',
       lead: 'Join us for group workshops, seasonal gatherings, and community events designed to foster connection and shared growth.',
       cta: { label: 'See all upcoming events', href: '/event-list' },
-      body: 'Our events bring people together in a supportive setting — whether it\u2019s a hands-on equine workshop, an energy-healing circle, or a seasonal community gathering. New dates are added regularly, so check back often or join the mailing list to be the first to know.',
+      body: 'Our events bring people together in a supportive setting \u2014 whether it\u2019s a hands-on equine workshop, an energy-healing circle, or a seasonal community gathering. New dates are added regularly, so check back often or join the mailing list to be the first to know.',
+      extra: '<div style="margin-top:36px;">' + featuredEventCard({
+        title: 'Harvest Moon Return 2026',
+        body: 'A night of release, renewal, and community. Sound bath, Reiki, reflection, and connection under the September sky.',
+        when: 'Saturday, September 26, 2026 \u00b7 6:30\u20139:30 PM \u00b7 Crown Point, Indiana \u00b7 $65 per person',
+        href: '/harvest-moon-return-2026'
+      }) + '</div>',
     });
   }
   function tplBook() {
