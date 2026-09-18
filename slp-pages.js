@@ -9,7 +9,8 @@
  * data-page values:
  *   home | about | services | pricing | events | book |
  *   groups | members | inquiry | loyalty | privacy | accessibility |
- *   postpartum | children-teens | veterans | parents-caregivers | harvest-moon
+ *   postpartum | children-teens | veterans | parents-caregivers | harvest-moon |
+ *   grief-support
  *
  * DEPLOY (matches the BDDC pattern):
  *   1. Push this file to a public GitHub repo.
@@ -57,7 +58,8 @@
         { label: 'Postpartum Depression Coaching',        href: '/postpartum-depression-coaching' },
         { label: 'Equine Coaching for Children & Teens',   href: '/equine-coaching-for-children-teens' },
         { label: 'Equine Coaching for Veterans',            href: '/equine-coaching-for-veterans' },
-        { label: 'Coaching for Parents & Caregivers',       href: '/coaching-for-parents-caregivers' }
+        { label: 'Coaching for Parents & Caregivers',       href: '/coaching-for-parents-caregivers' },
+        { label: 'Grief Support Group',                     href: '/grief-support-group' }
       ] },
     { label: 'Services',        href: '/services' },
     { label: 'Plans & Pricing', href: '/pricing-plans/plans-pricing' },
@@ -880,12 +882,21 @@
       lead: 'Join us for group workshops, seasonal gatherings, and community events designed to foster connection and shared growth.',
       cta: { label: 'See all upcoming events', href: '/event-list' },
       body: 'Our events bring people together in a supportive setting \u2014 whether it\u2019s a hands-on equine workshop, an energy-healing circle, or a seasonal community gathering. New dates are added regularly, so check back often or join the mailing list to be the first to know.',
-      extra: '<div style="margin-top:36px;">' + featuredEventCard({
-        title: 'Harvest Moon Return 2026',
-        body: 'A night of release, renewal, and community. Sound bath, Reiki, reflection, and connection under the September sky.',
-        when: 'Saturday, September 26, 2026 \u00b7 6:30\u20139:30 PM \u00b7 Crown Point, Indiana \u00b7 $65 per person',
-        href: '/harvest-moon-return-2026'
-      }) + '</div>',
+      extra: '<div style="display:grid; gap:28px; margin-top:36px;">' +
+        featuredEventCard({
+          title: 'Harvest Moon Return 2026',
+          body: 'A night of release, renewal, and community. Sound bath, Reiki, reflection, and connection under the September sky.',
+          when: 'Saturday, September 26, 2026 \u00b7 6:30\u20139:30 PM \u00b7 Crown Point, Indiana \u00b7 $65 per person',
+          href: '/harvest-moon-return-2026'
+        }) +
+        featuredEventCard({
+          title: 'Grief Support Group',
+          body: 'A safe space, a kindred circle, a brighter tomorrow. Honor your story, heal your heart, and build a supportive community \u2014 all are welcome. Registration required.',
+          when: 'October 5 \u00b7 November 16 \u00b7 December 14, 2026 \u00b7 6:00\u20138:00 PM CST \u00b7 Crown Point, Indiana',
+          href: '/grief-support-group',
+          linkLabel: 'View group details & register'
+        }) +
+        '</div>',
     });
   }
   function tplBook() {
@@ -1218,6 +1229,38 @@
       '<a class="btn btn--light" href="/book-online">Start Your Self-Care Journey</a></div></section>';
   }
 
+  /* Template: Grief Support Group */
+  function tplGriefSupport(el) {
+    var img = wimg(IMG.heroMist, 1600, 700, 'fill');
+    return '<section class="hero"><div class="hero-media"><img src="' + img +
+      '" alt="Group gathered around a horse in a grief support session" loading="lazy"></div><div class="hero-veil"></div>' +
+      '<div class="wrap hero-inner reveal"><span class="eyebrow">Healing Happens Here</span>' +
+      '<h1 class="hero-title">Grief Support Group</h1>' +
+      '<p class="lead">A safe space. A kindred circle. A brighter tomorrow. Different journeys, same humanity — you are not alone.</p>' +
+      '<div class="hero-cta"><a class="btn btn--primary" href="tel:+12193619900">Call or Text to Register</a>' +
+      '<a class="btn btn--ghost" href="/inquiry-services-page">Ask a Question</a></div></div></section>' +
+      '<section class="sec"><div class="wrap"><h2 class="title">You Don\'t Have to Do This Alone</h2>' +
+      '<p class="lead" style="margin-top:1em;">In the presence of horses, we find a safe space to heal, connect, and grow — and remember we are not alone. This grief support group welcomes anyone carrying loss, offering a kindred circle to honor your story, share your journey, and find your way toward a brighter tomorrow.</p>' +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2em;margin-top:2.5em;">' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Find Understanding</h3><p style="color:#5a4042;">Sit with others who truly understand what grief feels like, without needing to explain.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Share Your Journey</h3><p style="color:#5a4042;">Speak as much or as little as feels right, in a circle that honors your story.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Receive Encouragement</h3><p style="color:#5a4042;">Be met with compassion and support as you move through your own healing timeline.</p></div>' +
+      '<div style="background:#fff;padding:2em;border-radius:18px;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><h3 style="color:#913f4a;font-size:1.35rem;margin-bottom:.8em;">Build a Supportive Community</h3><p style="color:#5a4042;">Form lasting connections with a kindred circle who will walk alongside you.</p></div>' +
+      '</div></section>' +
+      '<section class="sec sec--panel"><div class="wrap"><h2 class="title">Upcoming Sessions</h2>' +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.4em;margin-top:1.8em;max-width:820px;">' +
+      '<div style="background:#fff;padding:1.6em;border-radius:16px;text-align:center;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><div style="font-family:var(--display);font-size:1.3rem;color:var(--ink);">October 5</div><div style="color:var(--taupe);">2026</div></div>' +
+      '<div style="background:#fff;padding:1.6em;border-radius:16px;text-align:center;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><div style="font-family:var(--display);font-size:1.3rem;color:var(--ink);">November 16</div><div style="color:var(--taupe);">2026</div></div>' +
+      '<div style="background:#fff;padding:1.6em;border-radius:16px;text-align:center;box-shadow:0 10px 30px -18px rgba(46,15,19,.45);"><div style="font-family:var(--display);font-size:1.3rem;color:var(--ink);">December 14</div><div style="color:var(--taupe);">2026</div></div>' +
+      '</div>' +
+      '<p style="margin-top:1.8em; max-width:72ch;"><strong>6:00–8:00 PM CST</strong> · Crown Point, Indiana<br>' +
+      '<strong>Call or text 219-361-9900 to register</strong> · Registration required<br>' +
+      'All are welcome. You don’t have to do this alone.</p></div></section>' +
+      '<section class="sec band"><div class="wrap"><h2>Honor Your Story. Heal Your Heart. Create Your Path.</h2>' +
+      '<p>Reach out to reserve your spot in our next grief support circle.</p>' +
+      '<a class="btn btn--light" href="tel:+12193619900">Call or Text to Register</a></div></section>';
+  }
+
   /* Template: Harvest Moon Return Event */
   function tplHarvestMoon(el) {
     var img = wimg(IMG.heroMist, 1600, 700, 'fill');
@@ -1252,7 +1295,8 @@
     inquiry: tplInquiry, loyalty: tplLoyalty, why: tplWhy,
     privacy: tplPrivacy, accessibility: tplAccessibility,
     postpartum: tplPostpartum, 'children-teens': tplChildrenTeens,
-    veterans: tplVeterans, 'parents-caregivers': tplParents, 'harvest-moon': tplHarvestMoon
+    veterans: tplVeterans, 'parents-caregivers': tplParents, 'harvest-moon': tplHarvestMoon,
+    'grief-support': tplGriefSupport
   };
 
   /* ---- SEO: inject JSON-LD structured data once ---- */

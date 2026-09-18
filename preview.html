@@ -9,7 +9,7 @@
 <slp-footer></slp-footer>
 <script src="./slp-pages.js"></script>
 <script>
-const pages=['home','about','services','pricing','events','book','groups','members','inquiry','loyalty','privacy','accessibility'];
+const pages=['home','about','services','pricing','events','book','groups','members','inquiry','loyalty','privacy','accessibility','postpartum','children-teens','veterans','parents-caregivers','grief-support','harvest-moon'];
 const host=document.getElementById('pages');
 pages.forEach(p=>{const d=document.createElement('div');d.className='pgwrap';
 d.innerHTML='<div class="lbl">data-page="'+p+'"</div><slp-page data-page="'+p+'"></slp-page>';host.appendChild(d);});
